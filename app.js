@@ -1,3 +1,29 @@
+/** MDC-CLIENT APPLICATION *********************************************************************************************************************************
+
+This is MDC (Client) application i.e the place where all users (except admin) can log in, and view and/or add Maintenance Data of their respective
+Company. The application follows MVC design pattern.
+
+Pre-requisite:
+Admin will create the company (a.k.a. customer/client) and assign one or more manager (or regional manager)
+Admin will optionally create Employees
+Admin will create and maintain forms
+
+Scope:
+There are three identified Roles - Regional Manager, Manager, and Employee
+All users (irrespective of roles) will have access to view and add data using forms (only data of the company they belong to)
+Additionally, users who have the role of Regional Manager or Manager will have data "Edit" access (no delete)
+Users who have the role of Regional Manager or Manager will have access to add/edit Employees only (no delete, but can deactive instead)
+Username (of any role) is unique across all of IDM's customers (not just within one customer) */
+
+/** ABOUT APP.JS ****************************************************************************************************************************************
+
+This file, app.js is the start point and acts as the node.js server for the MDC-Client application
+This file is settings-only which is used across the application
+The application once deployed will run on port 9009 of the system
+File names, function names, and variable names are kept as self-explainatory as possible */
+
+/*******************************************************************************************************************************************************/
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -9,15 +35,15 @@ const session = require('express-session');
 const passport = require('passport');
 const httpPort = 9009;
 
-//Controllers
-const login = require('./routes/login.js');  //validate user 
-const home = require('./routes/home.js');  //Get all forms, for managers and above, provide option for employee management
-const user = require('./routes/user.js');
+//Controllers a.k.a Routes
+const login = require('./routes/login.js');  //validate user
+const home = require('./routes/home.js');   //Get all forms, for managers and above, provide option for employee management
+const user = require('./routes/user.js');   //User specififc activities - view, add, edit
 
 //Initial app 
 const app = express();
 
-//View Engine
+//View Engine - Handlebars
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout:'layout'}));
 app.set('view engine', 'handlebars');
@@ -85,9 +111,6 @@ app.use('/', login);                //on GET / go to ./routes/login.js which wil
 app.use('/login', login);           //even on GET /login it should behave as above
 app.use('/home', home);
 app.use('/user', user);
-
-/*const test = require('./routes/test.js');   //delete after use
-app.use('/test', test);                     //delete after use*/
 
 //Set Port
 app.set('port', process.env.PORT || httpPort);

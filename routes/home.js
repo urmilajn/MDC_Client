@@ -3,13 +3,13 @@ const router = express.Router();
 
 const User = require('../models/user');
 
-/** HOME **********************************************************************************************************************************************/
+/** HOME - LANDING PAGE AFTER SUCCESSFUL LOGIN **********************************************************************************************************/
 
 //Show all available forms of current customer
 router.get('/', User.ensureAuthenticated, function(req, res){
 	var role = req.session.passport.user.role;
 	if(role=='manager' || role=='regionalManager')
-		res.render('home.handlebars',{role: role});		//show user management options only for manager/regional manager
+		res.render('home.handlebars', {role: role});		//show user management option only for manager/regional manager
 	else
 		res.render('home.handlebars');
 });
@@ -37,7 +37,7 @@ router.post('/changePassword', User.ensureAuthenticated, function(req, res){
 		res.render('changePassword.handlebars', {errors: errors});
 
 	else {
-		User.changePassword(req, function(err, result){		//result will be empty
+		User.changePassword(req, function(err, result){
 			if(err) throw err;
 		});
 

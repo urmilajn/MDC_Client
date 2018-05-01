@@ -49,12 +49,12 @@ router.post('/addUser', User.ensureAuthenticated, User.isManager, function(req, 
 		User.getUserByUsername(username, function(err,user) {
 			if(err) throw err;
 
-			else if(user) {
+			else if(user) {		//validation error is name is taken
 				errors = [{param: 'username', msg: 'Username is already taken', value: '' }];
 				res.render('addUser.handlebars', {errors: errors, locations: managerLocations});
 			}
 
-			else {
+			else {		//create new user if username is available
 					var newUser = new User({
 						username: username,
 						password: password,
@@ -85,7 +85,7 @@ router.post('/cancelUser', User.ensureAuthenticated, User.isManager, function(re
 
 /** EDIT USER ****************************************************************************************************************************************/
 
-//Get user details for the selected user
+//Get user details for the user "selected"
 router.post('/editUser', User.ensureAuthenticated, User.isManager, function(req, res){
 	
 	var userId = req.body.userId;
@@ -118,6 +118,9 @@ router.post('/updateUser', User.ensureAuthenticated, User.isManager, function(re
 	if(errors)
 		res.render('editUser.handlebars', {errors: errors, locations: managerLocations});
 
+	/* username and/or password and/or employee location and/or status can be updated
+	   if username is being updated i.e. changed, check if the new username is already taken */
+
 	else {
 		User.getUserByUsername(username, function(err,user) {
 
@@ -125,15 +128,15 @@ router.post('/updateUser', User.ensureAuthenticated, User.isManager, function(re
 
 			if (err) throw err;
 
-			else if(user) {
-				if(user._id!=userId) {	//if username is not same as previous, check if username is already taken
+			else if(user) {		//if user is found it means we either got current user's details or it means a clash of username
+				if(user._id!=userId) {	//check if it is a clash of usernames
 					errors = [{param: 'username', msg: 'Username is already taken', value: '' }];
 					res.render('editUser.handlebars', {errors: errors, username: username, locations: managerLocations});
 				}
-				else {					//it is same user and username, update everything but username
+				else {					//if is not a clash, it means we are trying to update details for the same user
 					if(password!='')								//skip if empty
 						updateUser.password = password;
-					if(empLocations)									//skip if empty
+					if(empLocations)								//skip if empty
 						updateUser.locations = empLocations;
 					if(status)										//skip if empty
 						updateUser.status = status;
