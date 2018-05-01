@@ -4,7 +4,7 @@
   {{/each}}
 {{/if}}
 
-<form method="post" action="/customer/addUser">
+<form method="post" action="/user/addUser">
 
 <div class="form-group required">
   <label class="control-label">Username</label>
@@ -14,16 +14,6 @@
 <div class="form-group required">
   <label class="control-label">Password</label>
   <input type="text" class="form-control" name="password" placeholder="Password"/>
-</div>
-
-<div class="form-group required" name="role">
-  <label class="control-label">Role</label>
-  <select class="form-control" name="role">
-      <option value="" disabled selected hidden>Select Role</option>
-      <option value="employee">Employee</option>
-      <option value="manager">Manager</option>
-      <option value="regionalManager">Regional Manager</option>      
-  </select>
 </div>
 
 <div class="form-group required">
@@ -36,6 +26,6 @@
 </div>
 
 <button type="submit" class="btn btn-default">Add</button>
-<button type="submit" class="btn btn-default" formaction="/customer/cancelUser">Cancel</button>
+<button type="submit" class="btn btn-default" formaction="/user/cancelUser">Cancel</button>
 
 </form>

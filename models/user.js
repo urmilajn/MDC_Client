@@ -26,7 +26,7 @@ var UserSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	locations: {				//subset of current-customer > locations
+	locations: {				//subset of current-manager > locations
 		type: [String],
 		required: true
 	},
@@ -38,7 +38,7 @@ var UserSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', UserSchema);	//mongoose understands 'User' as 'users' collection within idm db
 
-module.exports.ensureAuthenticated = function(req, res, next){	//Used
+module.exports.ensureAuthenticated = function(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	} else {
@@ -46,7 +46,7 @@ module.exports.ensureAuthenticated = function(req, res, next){	//Used
 	}
 }
 
-module.exports.isManager = function(req, res, next){	//Used
+module.exports.isManager = function(req, res, next){
 	var role = req.session.passport.user.role;
 	if(role=='manager' || role=='regionalManager') {
 		return next();
@@ -55,33 +55,33 @@ module.exports.isManager = function(req, res, next){	//Used
 	}
 }
 
-module.exports.getUserByUsername = function(username, result){	//Used
+module.exports.getUserByUsername = function(username, result){
 	User.findOne({username: username}, result);
 }
 
-module.exports.getUserById = function(id, result){	//Used
+module.exports.getUserById = function(id, result){
 	User.findById(id, result);
 }
 
-module.exports.comparePassword = function(candidatePassword, hash, result){	//Used
+module.exports.comparePassword = function(candidatePassword, hash, result){
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
     	if(err) throw err;
     	result(null, isMatch);
 	});
 }
 
-module.exports.getEmployees = function(customerId, result){	//Used
+module.exports.getEmployees = function(customerId, result){
 	User.find({role: 'employee', customerId: customerId}, result);
 }
 
-module.exports.getManagers = function(customerId, result){	//Used
+module.exports.getManagers = function(customerId, result){
 	var query = {$and: [
 					{$or: [{role: 'manager'}, {role: 'regionalManager'}]},
 					{customerId: customerId}]};
 	User.find(query, result);
 }
 
-module.exports.changePassword = function(req, result){		//Used
+module.exports.changePassword = function(req, result){
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.newPassword, salt, function(err, hash) {
 	    	var query = {_id: req.session.passport.user};
