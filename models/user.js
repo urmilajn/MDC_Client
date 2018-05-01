@@ -38,7 +38,7 @@ var UserSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', UserSchema);	//mongoose understands 'User' as 'users' collection within idm db
 
-module.exports.ensureAuthenticated = function(req, res, next){
+module.exports.ensureAuthenticated = function(req, res, next){	//Used
 	if(req.isAuthenticated()){
 		return next();
 	} else {
@@ -46,26 +46,46 @@ module.exports.ensureAuthenticated = function(req, res, next){
 	}
 }
 
-module.exports.getUserByUsername = function(username, result){
+module.exports.isManager = function(req, res, next){	//Used
+	var role = req.session.passport.user.role;
+	if(role=='manager' || role=='regionalManager') {
+		return next();
+	} else {
+		res.redirect('/home');
+	}
+}
+
+module.exports.getUserByUsername = function(username, result){	//Used
 	User.findOne({username: username}, result);
 }
 
-module.exports.getUserById = function(id, result){
+module.exports.getUserById = function(id, result){	//Used
 	User.findById(id, result);
 }
 
-module.exports.comparePassword = function(candidatePassword, hash, callback){
+module.exports.comparePassword = function(candidatePassword, hash, result){	//Used
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
     	if(err) throw err;
-    	callback(null, isMatch);
+    	result(null, isMatch);
 	});
 }
 
-module.exports.changePassword = function(req, callback){
+module.exports.getEmployees = function(customerId, result){	//Used
+	User.find({role: 'employee', customerId: customerId}, result);
+}
+
+module.exports.getManagers = function(customerId, result){	//Used
+	var query = {$and: [
+					{$or: [{role: 'manager'}, {role: 'regionalManager'}]},
+					{customerId: customerId}]};
+	User.find(query, result);
+}
+
+module.exports.changePassword = function(req, result){		//Used
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(req.body.newPassword, salt, function(err, hash) {
 	    	var query = {_id: req.session.passport.user};
-	        User.update(query, {$set: {password: hash}}, callback);
+	        User.update(query, {$set: {password: hash}}, result);
 	    });
 	});
 }
@@ -77,10 +97,6 @@ module.exports.createUser = function(newUser, result){
 	        newUser.save(result);
 	    });	
 	});
-}
-
-module.exports.getUsersByRole = function(role, customerId, results){
-	User.find({role: role, customerId: customerId}, results);
 }
 
 module.exports.updateUserById = function(id, newUser, result){

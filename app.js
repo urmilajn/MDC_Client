@@ -12,6 +12,7 @@ const httpPort = 9009;
 //Controllers
 const login = require('./routes/login.js');  //validate user 
 const home = require('./routes/home.js');  //Get all forms, for managers and above, provide option for employee management
+const user = require('./routes/user.js');
 
 //Initial app 
 const app = express();
@@ -83,6 +84,7 @@ app.post('*', function (req, res, next) {   //set these variables for each incom
 app.use('/', login);                //on GET / go to ./routes/login.js which will take you to views/login.handlebars
 app.use('/login', login);           //even on GET /login it should behave as above
 app.use('/home', home);
+app.use('/user', user);
 
 /*const test = require('./routes/test.js');   //delete after use
 app.use('/test', test);                     //delete after use*/
