@@ -1,0 +1,59 @@
+{{#if errors}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
+
+<div class="header clearfix">
+<nav>
+  <ul class="nav nav-pills pull-right">
+    <form method="get" action="/customer/manageUsers">
+      <button type="submit" class="btn btn-default" formaction="/customer/manageForms">Manage Forms</button>
+      <button type="submit" class="btn btn-default" formaction="/customer/manageUsers">Manage Users</button>
+    </form>
+  </ul>
+</nav>
+<h4 class="text-muted">{{customerName}}</h4>
+</div>
+
+<form method="get" action="/customer/addUser">
+  <button type="submit" class="btn btn-default">Add User</button>
+</form>
+<p></p>
+
+<form method="get" action="/customer">
+  <div class="btn-group btn-group-justified">
+    <a href="/customer/getEmployees" class="btn btn-default">Employees</a>
+    <a href="/customer/getManagers" class="btn btn-default">Managers</a>
+    <a href="/customer/getRegionalManagers" class="btn btn-default">Regional Managers</a>
+  </div>
+</form>
+
+<p></p>
+{{#if users}}
+  <div>
+      <table class="table table-bordered">
+        <thead>
+            <th>Username</th> 
+            <th>Locations</th> 
+            <th>Status</th>
+            <th/>
+        </thead> 
+        <tbody> 
+            {{#each users}} 
+            <tr>
+                <td>{{username}}</td>
+                <td>{{locations}}</td>
+                <td>{{status}}</td>
+                <td width="50"><form method="post" action="/user/editUser">
+                                  <input type="hidden" name="userId" value="{{_id}}"/>
+                                  <input type="hidden" name="username" value="{{username}}"/>
+                                  <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
+                                </form>
+                </td>
+            </tr>
+            {{/each}} 
+        </tbody> 
+    </table>
+</div>
+{{/if}}

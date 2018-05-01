@@ -1,0 +1,62 @@
+{{#if errors}}
+  {{#each errors}}
+    <div class="alert alert-danger">{{msg}}</div>
+  {{/each}}
+{{/if}}
+
+  <div class="header clearfix">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <form method="get" action="/customer/manageUsers">
+            <button type="submit" class="btn btn-default" formaction="/customer/manageForms">Manage Forms</button>
+            <button type="submit" class="btn btn-default" formaction="/customer/manageUsers">Manage Users</button>
+        </form>
+    </ul>
+</nav>
+<h4 class="text-muted">{{customerName}}</h4>
+</div>
+
+<form method="post" action="/user/updateUser">
+
+<div class="form-group required">
+  <label class="control-label">Username</label>
+  <input type="text" class="form-control" name="username" value="{{username}}" placeholder="Change Username"/>
+</div>
+
+<div class="form-group">
+  <label>Password</label>
+  <input type="text" class="form-control" name="password" placeholder="Change Password"/>
+</div>
+
+<div class="form-group" name="role">
+  <label>Role</label>
+  <select name="role" class="form-control">
+      <option value="" disabled selected hidden>Change Role</option>
+      <option value="employee">Employee</option>
+      <option value="manager">Manager</option>
+      <option value="regionalManager">Regional Manager</option>      
+  </select>
+</div>
+
+<div>
+  <label>Locations</label>
+  <select name="locations" class="form-control" multiple="multiple">
+    {{#each customerLocations}}
+        <option value="{{.}}">{{.}}</option>
+    {{/each}}    
+  </select>
+</div><br/>
+
+<div class="form-group" name="status">
+  <label>Status</label>
+  <select name="status" class="form-control">
+      <option value="" disabled selected hidden>Change Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>    
+  </select>
+</div><br/>
+
+<button type="submit" class="btn btn-default">Update</button>
+<button type="submit" class="btn btn-default" formaction="/customer/cancelUser">Cancel</button>
+
+</form>
