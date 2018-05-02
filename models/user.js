@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 mongoose.connect(config.database);    //getting url from config/database.js instead of connecting directly
 const db = mongoose.connection;
 
-//User Schema
+/** USER MODEL/SCHEMA *********************************************************************************************************************************/
+
 var UserSchema = mongoose.Schema({
 	username: {					//unique across the entire idm system
 		type: String,
@@ -38,6 +39,9 @@ var UserSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', UserSchema);	//mongoose understands 'User' as 'users' collection within idm db
 
+/** HELPER AUTHORIZATION FUNCTIONS ********************************************************************************************************************/
+
+//Authentication checked at each page, to restrict the user from manually entering or navigating to previous authorized session
 module.exports.ensureAuthenticated = function(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
@@ -46,6 +50,8 @@ module.exports.ensureAuthenticated = function(req, res, next){
 	}
 }
 
+/* Authentication checked at each page, to restrict the Employee user from manually entering or navigating to unauthorized pages
+(i.e. pages dedicated only to managers) */
 module.exports.isManager = function(req, res, next){
 	var role = req.session.passport.user.role;
 	if(role=='manager' || role=='regionalManager') {
@@ -54,6 +60,8 @@ module.exports.isManager = function(req, res, next){
 		res.redirect('/home');
 	}
 }
+
+/** HELPER DATABASE FUNCTIONS ************************************************************************************************************************/
 
 module.exports.getUserByUsername = function(username, result){
 	User.findOne({username: username}, result);
