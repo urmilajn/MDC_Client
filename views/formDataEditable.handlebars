@@ -13,9 +13,11 @@
       <tbody> 
           {{#each formData}}
           <tr>
-              <td>{{@index}}: {{this}}</td>
-              <td>{{b}}</td>
-              <td>{{c}}</td>
+            {{#each this}}
+              {{#if this.value}}
+                <td>{{this.value}}</td>
+              {{/if}}
+            {{/each}}
               <td width="50"><form method="post" action="/form/editData">
                                 <input type="hidden" name="userId" value="{{_id}}"/>
                                 <input type="hidden" name="username" value="{{fulldata}}"/>

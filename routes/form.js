@@ -37,20 +37,23 @@ router.post('/', User.ensureAuthenticated, function(req, res){
 				}
 			}
 
-			/*for(var i=0; i<results.length; i++) {
-				var rows = [];
+			//extract rows and its columns
+			var formData = [];
+			for(var i=0; i<results.length; i++) {
+				var row = [];
 				for(key in results[i]) {
-					var temp = {};
-					temp["name"] = key;
-					temp["value"] = results[i][key];
-
-					//console.log(key + ": " + results[i][key]);
+					var col = {};
+					if(key=="_id")
+						col["_id"] = results[i][key];
+					else
+						col["value"] = results[i][key];
+					console.log(col);
+					row.push(col);
 				}
-			}*/
+				formData.push(row);
+			}
 			
-			console.log(results);
-			
-			res.render('formDataEditable.handlebars', {formName: formName, formHeaders: formHeaders, formData: results});
+			res.render('formDataEditable.handlebars', {formName: formName, formHeaders: formHeaders, formData: formData});
 		}
 	});
 
