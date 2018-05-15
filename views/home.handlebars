@@ -10,4 +10,24 @@
 </div>
 {{/if}}
 
-Show Forms
+<a href="/form/test">Sample Form</a>
+
+{{#if forms}}
+<h4 class="text-muted">Forms</h4>
+  <div>
+      <table class="table table-bordered">
+        <tbody>
+            {{#each forms}}
+            <tr>
+                <td><form method="post" action="/form">
+                      <input type="hidden" name="formId" value="{{_id}}"/>
+                      <input type="hidden" name="formName" value="{{formName}}"/>
+                      <button type="submit" class="btn btn-link">{{formName}}</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+  </div>
+{{/if}}

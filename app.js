@@ -39,6 +39,7 @@ const httpPort = 9009;
 const login = require('./routes/login.js');  //validate user
 const home = require('./routes/home.js');   //Get all forms, for managers and above, provide option for employee management
 const user = require('./routes/user.js');   //User specififc activities - view, add, edit
+const form = require('./routes/form.js');   //Form specififc activities - view form, add data, edit data
 
 //Initial app 
 const app = express();
@@ -111,6 +112,7 @@ app.use('/', login);                //on GET / go to ./routes/login.js which wil
 app.use('/login', login);           //even on GET /login it should behave as above
 app.use('/home', home);
 app.use('/user', user);
+app.use('/form',form);
 
 //Set Port
 app.set('port', process.env.PORT || httpPort);

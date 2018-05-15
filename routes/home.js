@@ -1,17 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
+const Form = require('../models/form');
 const User = require('../models/user');
 
 /** HOME - LANDING PAGE AFTER SUCCESSFUL LOGIN **********************************************************************************************************/
 
 //Show all available forms of current customer
 router.get('/', User.ensureAuthenticated, function(req, res){
+	
+	//Get Session variables
 	var role = req.session.passport.user.role;
-	if(role=='manager' || role=='regionalManager')
-		res.render('home.handlebars', {role: role});		//show user management option only for manager/regional manager
-	else
-		res.render('home.handlebars');
+	var customerId = req.session.passport.user.customerId;
+	
+	//Get all forms for this customer
+	Form.getFormNamesByCustomerID(customerId, function(err, forms){
+		if(err) throw err;
+		else {
+			if(role=='manager' || role=='regionalManager')
+				res.render('home.handlebars', {role: role, forms: forms});		//show user management option only for manager/regional manager
+			else
+				res.render('home.handlebars', {forms: forms});
+		}
+	});
 });
 
 /** CHANGE USER PASSWORD *****************************************************************************************************************************/
@@ -55,7 +66,11 @@ router.post('/cancelPassword', User.ensureAuthenticated, function(req, res){
 
 //Logout
 router.get('/logout', function(req, res){
-	res.clearCookie('userId');			//clear all created cookies at logout
+	
+	//clear all created cookies at logout
+	res.clearCookie('userId');
+	res.clearCookie('formId');		res.clearCookie('formName');
+
 	req.logout();
 	req.flash('success_msg', 'You are logged out');
 	res.redirect('/login');

@@ -1,0 +1,29 @@
+<h4 class="text-muted">{{formName}}</h4>
+<form method="get" action="/form/addData">
+  <button type="submit" class="btn btn-default">Add</button>
+</form> <br/>
+<div>
+    <table class="table table-bordered">
+      <thead>
+        {{#each formHeaders}}
+          <th>{{name}}</th> 
+        {{/each}}
+        <th/>
+      </thead> 
+      <tbody> 
+          {{#each formData}}
+          <tr>
+              <td>{{@index}}: {{this}}</td>
+              <td>{{b}}</td>
+              <td>{{c}}</td>
+              <td width="50"><form method="post" action="/form/editData">
+                                <input type="hidden" name="userId" value="{{_id}}"/>
+                                <input type="hidden" name="username" value="{{fulldata}}"/>
+                                <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
+                              </form>
+              </td>
+          </tr>
+          {{/each}} 
+      </tbody> 
+  </table>
+</div>

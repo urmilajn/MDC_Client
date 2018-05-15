@@ -1,0 +1,164 @@
+<!--DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Functions</h2>
+
+<p>JSON to HTML</p-->
+
+
+
+<p id="demo"></p>
+
+<script>
+	
+var myObj, i, j, x = "";
+var myVar = "{{myVar}}";
+myObj = [
+		{"name":"chlorine","required":true,"order":1,"type":"text","placeholder":"chlorine_instruction","value":"test_value"},
+		{"order":2,"name":"total_chlorine","type":"text","placeholder":"total_chlorine_instruction"},
+		{"order":3,"name":"ph_checked","required":true,"type":"radio","options":[{"order":1,"name":"yes","value":"yes"},{"order":2,"name":"no","value":"no"}]},
+		{"order":4,"name":"choices","required":true,"type":"select","options":[{"order":1,"name":"choice1","value":"choice1"},{"order":2,"name":"choice2","value":"choice2"},{"order":3,"name":"choice3","value":"choice3"}]},
+		{"order":5,"name":"rooms","required":true,"type":"multiple","options":[{"order":1,"name":"101","value":"101101"},{"order":2,"name":"102","value":"102102"},{"order":3,"name":"103","value":"103103"}]},
+		{"order":6,"name":"floors_checked","required":true,"type":"checkboxes","options":[{"order":1,"name":"floo1","value":"floor1"},{"order":2,"name":"floor2","value":"floor2"},{"order":3,"name":"floor3","value":"floor3"}],"value":{}},
+		{"order":7,"type":"textarea","name":"comments","placeholder":"Enter comments here"},
+		{"order":8,"name":"added_by","required":true,"type":"text","placeholder":"added by"}
+];
+
+document.getElementById("demo").innerHTML = myVar + '<br/>' + myFunction1(myObj);
+
+function myFunction1(myObj){
+
+	for (i in myObj) {
+	        
+		
+		curObj = myObj[i];
+		
+		switch(myObj[i].type) {
+			case "text":
+				x += convertInput_Type_Text(curObj);
+				break;
+			case "radio":
+				x += convertInput_Type_Radio(curObj);
+				break;
+			case "select":
+				x += convertInput_Type_Select(curObj);
+				break;
+			case "checkboxes":
+				x += convertInput_Type_CheckBoxes(curObj);
+				break;
+			case "textarea":
+				x += convertInput_Type_TextArea(curObj);
+				break;
+			case "multiple":
+				x += convertInput_Type_Multiple(curObj);
+				break;
+			default:
+				text = "Bad Input type...";
+		}		
+		
+		
+	}
+
+	return x;
+}
+
+
+function convertInput_Type_Text(curObj){        
+  
+	y = '<b>' + curObj.name + '</b><br>'; 
+	
+	if (curObj.value == undefined) {
+		y += '<input type=' + curObj.type + ' name=' + '"' + curObj.name + '"' +' placeholder=' + '"' + curObj.placeholder + '"' +' required>';
+	}else{
+	    y += '<input type=' + curObj.type + ' name=' + '"' + curObj.name + '"' +' value=' + '"' + curObj.value + '"' +' required>';
+	}
+	
+	y += '<br><br>';
+
+	return y;
+}
+
+
+function convertInput_Type_Radio(curObj){
+
+	y = '<b>' + curObj.name + '</b><br>'; 
+	
+	for (j in curObj.options) {
+		y += ' <input type=' + curObj.type + ' name=' + '"' + curObj.options[j].name + '"' +' value=' + '"' + curObj.options[j].value + '"' +' required>' + curObj.options[j].name +'<br>';
+	}
+	
+	y += '<br>';
+
+	return y;
+}
+
+
+function convertInput_Type_Select(curObj){
+
+	y = '<b>' + curObj.name + '</b><br>'; 
+	
+	y += '<select name=' + curObj.name+ '>'
+		
+	for (j in curObj.options) {
+		y += ' <option value=' + curObj.options[j].value + '>' + curObj.options[j].name + '</option>' + '<br>';
+	}
+	
+    y += '</select>'; 
+	
+	y += '<br><br>';
+	
+	return y;
+
+}
+
+
+function convertInput_Type_CheckBoxes(curObj){
+
+	y = '<b>' + curObj.name + '</b><br>'; 
+	
+	for (j in curObj.options) {
+		y += ' <input type=' + 'checkbox' + ' name=' + '"' + curObj.options[j].name + '"' +' value=' + '"' + curObj.options[j].value + '"' +' required>' + curObj.options[j].name +'<br>';
+	}
+	
+	y += '<br>';
+
+	return y;
+}
+
+
+function convertInput_Type_TextArea(curObj){	
+	
+    y = '<b>' + curObj.name + '</b><br>'; 
+
+	y += '<textarea rows="4" cols="50" name=' + curObj.name  + 'form="usrform">' + curObj.placeholder + '</textarea>';
+	
+	y += '<br><br>';
+
+	return y;
+}
+
+
+function convertInput_Type_Multiple(curObj){
+
+	y = '<b>' + curObj.name + '</b><br>'; 
+	
+	y += '<select name=' + curObj.name + ' multiple>'
+		
+	for (j in curObj.options) {
+		y += ' <option value=' + curObj.options[j].value + '>' + curObj.options[j].name + '</option>' + '<br>';
+	}
+	
+    y += '</select>'; 
+	
+	y += '<br><br>';
+	
+	return y;
+
+}
+
+
+</script>
+
+<!-- /body>
+</html-->
