@@ -73,10 +73,8 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 
 	Form.getFormFieldsByFormID(formId, function(err, form){
 		if(err) throw err;
-		else {
-			//console.log(JSON.stringify(form.fields));
+		else
 			res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
-		}
 	});
 });
 
