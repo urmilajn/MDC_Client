@@ -64,11 +64,16 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 	//console.log(req.session.formFields);
 	//res.render('formDetails.handlebars', {myVar: "myVar from express"});
 	var formId = req.cookies.formId;
+	var role = req.session.passport.user.role;
 
 	Form.getFormFieldsByFormID(formId, function(err, form){
 		if(err) throw err;
-		else
-			res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
+		else {
+			if(role=='manager' || role=='regionalManager')
+				res.render('formDetails.handlebars', {role: role, formName: form.formName, formFields: JSON.stringify(form.fields)});
+			else
+				res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
+		}
 	});
 });
 
