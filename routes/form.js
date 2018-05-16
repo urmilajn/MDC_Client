@@ -4,12 +4,6 @@ const router = express.Router();
 const Form = require('../models/form');
 const User = require('../models/user');
 
-/** TEST **********************************************************************************************************************************************/
-
-router.get('/test', User.ensureAuthenticated, function(req, res){
-	res.render('formDetails.handlebars', {myVar: "myVar from express"});	
-});
-
 /** SHOW DATA FOR SELECTED FORM ***********************************************************************************************************************/
 
 router.post('/', User.ensureAuthenticated, function(req, res){
@@ -79,6 +73,31 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 		}
 	});
 });
+
+
+//Add Data -Post
+
+router.post('/addData', User.ensureAuthenticated, function(req, res) {
+	
+	var formId = req.cookies.formId;
+	var formName = req.cookies.formName;
+	var collectionName = formName + "_" + formId;
+
+
+	Form.addFormData(collectionName, function(err, form){
+		if(err) throw err;
+		else {
+			console.log("Added FormData to the formTable");
+			res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
+		}
+	});
+});
+
+
+router.post('/cancelData', User.ensureAuthenticated, function(req, res) {
+	res.redirect('/home');
+});
+
 
 /****************************************************************************************************************************************************/
 
