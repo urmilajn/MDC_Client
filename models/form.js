@@ -34,13 +34,9 @@ module.exports.getFormNamesByCustomerID = function(customerId, results) {
 	Form.find({customerId: customerId}, {formName: 1}, results);	//select _id, formName from forms where customerId = ?	//id is by default
 }
 
-/*module.exports.getFormFieldsByFormID = function(formId, result) {
-	Form.findById(formId, result);	//select * from forms where formId = ?	//id is by default
-}*/
-
-/*module.exports.createFormTable = function(tableName, result) {
-	db.createCollection(tableName, result);
-}*/
+module.exports.getFormFieldsByFormID = function(formId, result) {
+	Form.findById(formId, result);	//select * from forms where formId = ?
+}
 
 /** OTHER COLLECTION - HELPER DATABASE FUNCTIONS *****************************************************************************************************/
 

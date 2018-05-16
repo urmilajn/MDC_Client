@@ -5,7 +5,6 @@
 <div>
     <table class="table table-bordered">
       <thead>
-        <th/>
         {{#each formHeaders}}
           <th>{{name}}</th> 
         {{/each}}
@@ -13,17 +12,7 @@
       <tbody> 
           {{#each formData}}
             <tr>
-
-              {{#each this}}
-                {{#if this._id}}
-                  <td width="50"><form method="post" action="/form/editData">
-                                        <input type="hidden" name="dataId" value="{{this._id}}"/>
-                                        <button type="submit" class="glyphicon glyphicon-pencil btn btn-link"/>
-                                  </form>
-                  </td>
-                {{/if}}
-              {{/each}}
-
+            
               {{#each this}}
                 {{#if this.value}}
                   <td>{{this.value}}</td>
