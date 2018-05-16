@@ -73,21 +73,19 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 });
 
 
-//Add Data -Post
-
+//Add Data - Process & Reply
 router.post('/addData', User.ensureAuthenticated, function(req, res) {
 	
 	var formId = req.cookies.formId;
 	var formName = req.cookies.formName;
 	var collectionName = formName + "_" + formId;
 
+	console.log(req.body);
 
-	Form.addFormData(collectionName, function(err, form){
+	Form.addFormData(collectionName, req.body, function(err, form){
 		if(err) throw err;
-		else {
-			console.log("Added FormData to the formTable");
+		else
 			res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
-		}
 	});
 });
 
