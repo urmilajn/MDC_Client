@@ -37,6 +37,11 @@ module.exports.getFormNamesByCustomerID = function(customerId, results) {
 module.exports.getFormFieldsByFormID = function(formId, result) {
 	Form.findById(formId, result);	//select * from forms where formId = ?
 }
+module.exports.addFormData = function(collectionName, result) {
+	console.log(collectionName);
+	db.collection(collectionName).save({result});
+}
+
 
 /** OTHER COLLECTION - HELPER DATABASE FUNCTIONS *****************************************************************************************************/
 

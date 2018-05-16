@@ -1,6 +1,15 @@
-<h4 class="text-muted">{{formName}}</h4>
 
-<p id="demo"></p>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+<h4 class="text-muted">{{formName}}</h4>
+</div>
+<div class="panel-body" style="height:auto;">
+
+  <p id="demo"></p>
 
 <script>
 	
@@ -35,6 +44,9 @@ function myFunction1(myObj){
 			case "multiple":
 				x += convertInput_Type_Multiple(curObj);
 				break;
+			case "subheading":
+				x += convertInput_Type_Subheading(curObj);
+				break;
 			default:
 				text = "Bad Input type...";
 		}		
@@ -50,17 +62,22 @@ function convertInput_Type_Text(curObj){
   
 	y = '<b>' + curObj.name + '</b><br>'; 
 	
-	if (curObj.value == undefined) {
-		y += '<input type=' + curObj.type + ' name=' + '"' + curObj.name + '"' +' placeholder=' + '"' + curObj.placeholder + '"' +' required>';
-	}else{
-	    y += '<input type=' + curObj.type + ' name=' + '"' + curObj.name + '"' +' value=' + '"' + curObj.value + '"' +' required>';
-	}
+	    y += '<input type=' + curObj.type + ' name=' + '"' + curObj.name + '"' +' required>';
 	
 	y += '<br><br>';
 
 	return y;
 }
 
+function convertInput_Type_Subheading(curObj){        
+  
+	y = '<h3>' + curObj.name + '</h3><br>'; 
+	
+	
+	y += '<br><br>';
+
+	return y;
+}
 
 function convertInput_Type_Radio(curObj){
 
@@ -113,7 +130,7 @@ function convertInput_Type_TextArea(curObj){
 	
     y = '<b>' + curObj.name + '</b><br>'; 
 
-	y += '<textarea rows="4" cols="50" name=' + curObj.name  + 'form="usrform">' + curObj.placeholder + '</textarea>';
+	y += '<textarea rows="4" cols="50" name=' + curObj.name  + 'form="usrform">' + '</textarea>';
 	
 	y += '<br><br>';
 
@@ -141,3 +158,17 @@ function convertInput_Type_Multiple(curObj){
 
 
 </script>
+
+<form method="post" action="/form/addData">
+
+ 
+  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn btn-default" formaction="/form/cancelData">Cancel</button>
+
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
