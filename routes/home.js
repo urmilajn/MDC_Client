@@ -70,6 +70,7 @@ router.get('/logout', function(req, res){
 	//clear all created cookies at logout
 	res.clearCookie('userId');
 	res.clearCookie('formId');		res.clearCookie('formName');
+	res.clearCookie('dataId');
 
 	req.logout();
 	req.flash('success_msg', 'You are logged out');

@@ -51,4 +51,12 @@ module.exports.addFormData = function(collectionName, formData, result) {
 	db.collection(collectionName).insertOne(formData, result);
 }
 
+module.exports.getFormData = function(collectionName, dataId, data) {
+	db.collection(collectionName).find({_id: mongoose.Types.ObjectId(dataId)}).toArray(data);
+}
+
+module.exports.updateFormData = function(collectionName, dataId, formData, result) {
+	db.collection(collectionName).update({_id: dataId}, formData, {upsert: true}, result);
+}
+
 /*****************************************************************************************************************************************************/

@@ -50,9 +50,9 @@ router.post('/', User.ensureAuthenticated, function(req, res){
 			}
 			
 			if(role=='manager' || role=='regionalManager')	//has data view, add, edit option
-				res.render('formDataEditable.handlebars', {formName: formName, formHeaders: formHeaders, formData: formData});
+				res.render('addDataEditable.handlebars', {formName: formName, formHeaders: formHeaders, formData: formData});
 			else	//has data view, add options only - no edit
-				res.render('formData.handlebars', {formName: formName, formHeaders: formHeaders, formData: formData});
+				res.render('addData.handlebars', {formName: formName, formHeaders: formHeaders, formData: formData});
 		}
 	});
 });
@@ -72,7 +72,6 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 	});
 });
 
-
 //Add Data - Process & Reply
 router.post('/addData', User.ensureAuthenticated, function(req, res) {
 	
@@ -80,20 +79,17 @@ router.post('/addData', User.ensureAuthenticated, function(req, res) {
 	var formName = req.cookies.formName;
 	var collectionName = formName + "_" + formId;
 
-	console.log(req.body);
-
 	Form.addFormData(collectionName, req.body, function(err, form){
 		if(err) throw err;
 		else
-			res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
+			res.redirect('/home');
 	});
 });
 
-
+//Add Data - Cancel
 router.post('/cancelData', User.ensureAuthenticated, function(req, res) {
 	res.redirect('/home');
 });
-
 
 /****************************************************************************************************************************************************/
 
