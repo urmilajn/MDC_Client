@@ -21,6 +21,7 @@
 
 <form method="post" action="/form/addData">
 	<p id="demo"></p>
+	<!-- input type="hidden" name="username" value="{{username}}" -->
 	<button type="submit" class="btn btn-default">Submit</button>
 	<button type="submit" class="btn btn-default" formaction="/form/cancelData">Cancel</button>
 </form>
@@ -30,7 +31,9 @@
 var myObj, i, j, x = "";
 myObj = {{{formFields}}};
 
-document.getElementById("demo").innerHTML = myFunction1(myObj);
+document.getElementById("demo").innerHTML = myFunction1(myObj) +
+											'<input type="hidden" name="Added By" value="{{username}}">' +
+											'<input type="hidden" name="Date" value="' + new Date().toDateString() + '">';
 
 function myFunction1(myObj){
 

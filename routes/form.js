@@ -65,14 +65,15 @@ router.get('/addData', User.ensureAuthenticated, function(req, res) {
 	//res.render('formDetails.handlebars', {myVar: "myVar from express"});
 	var formId = req.cookies.formId;
 	var role = req.session.passport.user.role;
+	var username = req.session.passport.user.username;
 
 	Form.getFormFieldsByFormID(formId, function(err, form){
 		if(err) throw err;
 		else {
 			if(role=='manager' || role=='regionalManager')
-				res.render('formDetails.handlebars', {role: role, formName: form.formName, formFields: JSON.stringify(form.fields)});
+				res.render('formDetails.handlebars', {role: role, username: username, formName: form.formName, formFields: JSON.stringify(form.fields)});
 			else
-				res.render('formDetails.handlebars', {formName: form.formName, formFields: JSON.stringify(form.fields)});
+				res.render('formDetails.handlebars', {username: username, formName: form.formName, formFields: JSON.stringify(form.fields)});
 		}
 	});
 });
